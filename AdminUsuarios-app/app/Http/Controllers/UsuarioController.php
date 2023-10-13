@@ -12,31 +12,34 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        return Usuario::all();
+        /* return Usuario::all(); */
+
+        
+        $usuario =new Usuario();
+        return $usuario->all(); 
+       
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
     public function create()
     {
         //
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        //
+        $usuario = new Usuario();
+        $usuario->nombres = $request->nombres;
+        $usuario->apellidos = $request->apellidos;
+        $usuario->correos = $request->correo;
+        $usuario->fechas = $request->fecha;
+        $usuario->save();
+        return "Registro Guardado Correctamente";
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Usuario $usuario)
+    
+    public function show(string $id)
     {
-        //
+        return Usuario::where('id',$id)->get();
     }
 
     /**
@@ -50,16 +53,24 @@ class UsuarioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Usuario $usuario)
+    public function update(Request $request, string $id)
     {
-        //
+        $usuario = Usuario::find($id);
+        $usuario->nombres = $request->nombres;
+        $usuario->apellidos = $request->apellidos;
+        $usuario->correos = $request->correo;
+        $usuario->fechas = $request->fecha;
+        $usuario->save();
+        return $usuario;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Usuario $usuario)
+    public function destroy(string $id)
     {
-        //
+        $usuario = Usuario::find($id);
+        $usuario->delete();
+        return "Registro Eliminado Correctamente";
     }
 }
